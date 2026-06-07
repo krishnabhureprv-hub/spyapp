@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "569565072084",
+    "project_id": "optimizer-e4f16",
+    "storage_bucket": "optimizer-e4f16.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569565072084:android:4b30a7009d564b98ae8941",
+        "android_client_info": {
+          "package_name": "com.example.spyapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjSgKbte4z6uLapMCj0YVqC_pqcDNE-ag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
