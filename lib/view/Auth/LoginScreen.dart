@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spyapp/res/app_colors.dart';
+import 'package:spyapp/view/components/custom_Button.dart';
 import 'package:spyapp/view/components/custom_textfield.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -77,6 +78,56 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 controller: _cipherController,
                 isPassword: true,
                 suffixIcon: const Icon(Icons.visibility_off_outlined),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {},
+                  style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                  child: const Text(
+                    "FORGOT PASSWORD",
+                    style: TextStyle(
+                      color: AppColors.textMuted,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              CustomButton(
+                text: "Inatilize Session",
+                icon: const Icon(
+                  Icons.flash_on,
+                  color: AppColors.background,
+                  size: 16,
+                ),
+                onTap: () {},
+              ),
+              const SizedBox(height: 40),
+              Center(
+                child: GestureDetector(
+                  onTap: () {},
+                  child: RichText(
+                    text: const TextSpan(
+                      text: "New Operative?   ",
+                      style: TextStyle(
+                        color: AppColors.textMuted,
+                        fontSize: 12,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: "ESTABLISH IDENTITY",
+                          style: TextStyle(
+                            color: AppColors.primaryNeon,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
