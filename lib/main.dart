@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spyapp/res/app_theme.dart';
+import 'package:spyapp/view/Auth/LoginScreen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -16,6 +18,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Optimizer App', home: HomeScreen());
+    return MaterialApp(
+      title: 'Optimizer App',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.cyberTheme,
+      home: const LoginScreen(),
+    );
   }
 }
