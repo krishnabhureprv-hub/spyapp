@@ -2,49 +2,45 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class AppTheme {
-  static ThemeData get cyberTheme {
+  static ThemeData getTheme({required AppColors colors, required bool isDark}){
     return ThemeData(
-      brightness: Brightness.dark,
-      scaffoldBackgroundColor: AppColors.background,
+      brightness: isDark? Brightness.dark : Brightness.light,
+      scaffoldBackgroundColor: colors.background,
 
-      // 1. Core Color Scheme Setup
-      colorScheme: const ColorScheme.dark(
-        primary: AppColors.primaryNeon,
-        background: AppColors.background,
-        surface: AppColors.cardBackground,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: colors.primaryNeon,
+        brightness: isDark? Brightness.dark : Brightness.light,
+        primary: colors.primaryNeon,
+        surface: colors.cardBackground
       ),
-
-      // 2. Global Button Theme (For CustomButton)
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryNeon,
-          foregroundColor: AppColors.background,
-          disabledBackgroundColor: AppColors.primaryNeon.withOpacity(0.5),
+          backgroundColor: colors.primaryNeon,
+          foregroundColor: isDark? const Color(0xFF0A0A0A) : Colors.black,
+          disabledBackgroundColor: colors.primaryNeon.withOpacity(0.5),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-          elevation: 0,
-        ),
+          elevation: 0
+        )
       ),
-
-      // 3. Global Input Decoration Theme (For TextFields)
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.cardBackground,
-        hintStyle: const TextStyle(color: Colors.white24, fontSize: 13),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
+        fillColor: colors.cardBackground,
+        hintStyle: TextStyle(
+          color: isDark? Colors.white24 : const Color(0xFF757575),
+          fontSize: 13
         ),
-        // Defualt Border (Bina click kiye jo dikhta hai)
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white.withOpacity(0.05)),
+          borderSide: BorderSide(
+            color: isDark? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.1),
+          ),
           borderRadius: BorderRadius.circular(4),
         ),
-        // Click karne par Neon Green Glow Border
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColors.primaryNeon, width: 1),
-          borderRadius: BorderRadius.circular(4),
+          borderSide: BorderSide(color: colors.primaryNeon, width: 1.5),
+          borderRadius: BorderRadius.circular(4)
         ),
-      ),
+      )
     );
   }
 }

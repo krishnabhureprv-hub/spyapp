@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:spyapp/res/app_colors.dart';
+import 'package:spyapp/view/Auth/signupScreen.dart';
 import 'package:spyapp/view/components/custom_Button.dart';
 import 'package:spyapp/view/components/custom_textfield.dart';
 
@@ -24,6 +24,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -33,16 +34,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             children: [
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.security,
-                    color: AppColors.primaryNeon,
+                    color: theme.colorScheme.primary,
                     size: 18,
                   ),
                   const SizedBox(width: 6),
                   Text(
                     "S.P.E.C.T.R.E",
                     style: TextStyle(
-                      color: AppColors.primaryNeon,
+                      color: theme.colorScheme.primary,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                       letterSpacing: 2.0,
@@ -51,10 +52,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ],
               ),
               const SizedBox(height: 30),
-              const Text(
+              Text(
                 "ACCESS\nGRANTED\nONLY",
                 style: TextStyle(
-                  color: AppColors.textMain,
+                  color: Colors.white,
                   fontSize: 36,
                   fontWeight: FontWeight.w900,
                   height: 1.1,
@@ -62,9 +63,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-              const Text(
+              Text(
                 "Enter your Credential to decrypt your session.",
-                style: TextStyle(color: AppColors.textMuted, fontSize: 13),
+                style: TextStyle(
+                  color: theme.brightness == Brightness.dark 
+                      ? const Color(0xFF666666) 
+                      : const Color(0xFF757575),
+                  fontSize: 13),
               ),
               const SizedBox(height: 40),
               customTextField(
@@ -84,22 +89,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                  child: const Text(
+                  child: Text(
                     "FORGOT PASSWORD",
                     style: TextStyle(
-                      color: AppColors.textMuted,
+                      color: theme.brightness == Brightness.dark 
+                        ? const Color(0xFF666666) 
+                        : const Color(0xFF757575),
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               CustomButton(
                 text: "Inatilize Session",
-                icon: const Icon(
+                icon: Icon(
                   Icons.flash_on,
-                  color: AppColors.background,
+                  color: theme.brightness == Brightness.dark ? const Color(0xFF0A0A0A) : Colors.black,
                   size: 16,
                 ),
                 onTap: () {},
@@ -107,21 +114,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 40),
               Center(
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignupScreen()),
+                    );
+                  },
                   child: RichText(
-                    text: const TextSpan(
+                    text: TextSpan(
                       text: "New Operative?   ",
                       style: TextStyle(
-                        color: AppColors.textMuted,
+                        color: theme.brightness == Brightness.dark 
+                            ? const Color(0xFF666666) 
+                            : const Color(0xFF757575),
                         fontSize: 12,
                       ),
                       children: [
                         TextSpan(
                           text: "ESTABLISH IDENTITY",
                           style: TextStyle(
-                            color: AppColors.primaryNeon,
+                            color: theme.colorScheme.primary,
                             fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
+                            letterSpacing: 1.1,
                           ),
                         ),
                       ],

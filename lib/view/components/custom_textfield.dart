@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../res/app_colors.dart';
 
 class customTextField extends StatelessWidget {
   final String label;
@@ -9,6 +8,7 @@ class customTextField extends StatelessWidget {
   final Widget? suffixIcon;
 
   const customTextField({
+    super.key,
     required this.label,
     required this.hintText,
     required this.controller,
@@ -18,13 +18,16 @@ class customTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label.toUpperCase(),
-          style: const TextStyle(
-            color: AppColors.textMuted,
+          style: TextStyle(
+            color: theme.brightness == Brightness.dark 
+                ? const Color(0xFF666666) 
+                : theme.textTheme.bodySmall?.color?.withOpacity(0.6),
             fontSize: 11,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.5,
@@ -34,31 +37,10 @@ class customTextField extends StatelessWidget {
         TextFormField(
           controller: controller,
           obscureText: isPassword,
-          style: const TextStyle(color: AppColors.textMain, fontSize: 14),
+          style: TextStyle(color: theme.textTheme.bodyLarge?.color, fontSize: 14),
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: const TextStyle(
-              color: AppColors.textMuted,
-              fontSize: 13,
-            ),
-            filled: true,
-            fillColor: AppColors.cardBackground,
             suffixIcon: suffixIcon,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white.withOpacity(0.05)),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: AppColors.primaryNeon,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(4),
-            ),
           ),
         ),
         const SizedBox(height: 20),
