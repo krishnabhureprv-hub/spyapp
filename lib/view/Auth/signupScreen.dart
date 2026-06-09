@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spyapp/controller/auth_controller.dart';
 import '../components/custom_button.dart';
 import '../components/custom_textfield.dart';
 
@@ -31,6 +32,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
+    final authLoading = ref.watch(authControllerProvider);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -50,7 +53,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       style: TextStyle(
                         color: theme.colorScheme.primary,
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 20,
                         letterSpacing: 2.0,
                       ),
                     ),
@@ -212,12 +215,44 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
             
                 CustomButton(
                   text: "Establish Identity",
+                  isLoading: authLoading,
                   icon: Icon(
                     Icons.fingerprint,
                     color: isDark ? const Color(0xFF0A0A0A) : Colors.white,
                     size: 18,
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    if (_nameController.text.trim().isEmpty || 
+                        _emailController.text.trim().isEmpty || 
+                        _passwordController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("CRITICAL: All fields are mandatory.")),
+                      );
+                      return;
+                    }
+
+                    if (_passwordController.text != _confirmPasswordController.text) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("CIPHER MISMATCH: Passwords do not match.")),
+                      );
+                      return;
+                    }
+
+                    if (!_isAgreed) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("ERROR: Tactical compliance agreement required.")),
+                      );
+                      return;
+                    }
+
+                    // 🚀 Sab sahi hai! Ab controller ko signal bhejo account create karne ke liye
+                    ref.read(authControllerProvider.notifier).signUp(
+                          name: _nameController.text.trim(),
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text.trim(),
+                          context: context,
+                    );
+                  },
                 ),
                 const SizedBox(height: 24),
                 Center(

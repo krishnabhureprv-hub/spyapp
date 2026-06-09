@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:spyapp/view/Auth/signupScreen.dart';
+import 'package:spyapp/controller/auth_controller.dart';
+import 'package:spyapp/view/auth/signupScreen.dart';
 import 'package:spyapp/view/components/custom_Button.dart';
 import 'package:spyapp/view/components/custom_textfield.dart';
 
@@ -25,6 +26,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final authLoading = ref.watch(authControllerProvider);
+    
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -72,6 +77,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   fontSize: 13),
               ),
               const SizedBox(height: 40),
+              const Text(
+                "AGENT AUTHENTICATION",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 30),
               customTextField(
                 label: "Email",
                 hintText: "Enter ur Email",
@@ -87,7 +97,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_identityController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Enter your email to receive recovery link."),
+                          backgroundColor: Colors.orange,
+                        ),
+                      );
+                      return;
+                    }
+                    // Password reset link trigger kiya
+                    ref.read(authControllerProvider.notifier).resetPassword(
+                          email: _identityController.text.trim(),
+                          context: context,
+                        );
+                  },
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
                   child: Text(
                     "FORGOT PASSWORD",
@@ -109,7 +134,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   color: theme.brightness == Brightness.dark ? const Color(0xFF0A0A0A) : Colors.black,
                   size: 16,
                 ),
-                onTap: () {},
+                onTap: () {
+                  if (_identityController.text.trim().isEmpty || 
+                      _cipherController.text.trim().isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Identity credentials required."),
+                        backgroundColor: Colors.redAccent,
+                      ),
+                    );
+                    return;
+                  }
+
+                  // 🚀 Sign In Controller call kiya data pass karke
+                  ref.read(authControllerProvider.notifier).signIn(
+                        email: _identityController.text.trim(),
+                        password: _cipherController.text.trim(),
+                        context: context,
+                      );
+                },
               ),
               const SizedBox(height: 40),
               Center(
